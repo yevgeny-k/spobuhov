@@ -18,7 +18,11 @@
 			<div class="footer-socket-wrapper clearfix">
 				<div class="inner-wrap">
 					<div class="footer-socket-area">
-						<?php do_action( 'spacious_footer_copyright' ); ?>
+						<div class="copyright">
+						При цитировании или ином использовании материалов, опубликованных на страницах сайта <a href="<?php echo esc_url( home_url( '/' ) ); ?>">spobuhov.ru</a>,<br />ссылка на источник обязательна.<br /><br />
+           &copy; 2015 Депутат Госдумы Сергей Обухов
+						</div>
+						
 						<nav class="small-menu clearfix">
 							<?php
 								if ( has_nav_menu( 'footer' ) ) {									
