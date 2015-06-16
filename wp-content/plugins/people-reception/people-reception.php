@@ -29,15 +29,17 @@ if(!class_exists('People_Reception_Plugin'))
 			$transcript = new Transcript();
 			$voting = new Voting();
 
-			require_once(sprintf("%s/gd_import/gd_import.php", dirname(__FILE__)));
+			require_once(sprintf("%s/gd_import/bills.php", dirname(__FILE__)));
+			require_once(sprintf("%s/gd_import/transcripts.php", dirname(__FILE__)));
 
-			$gd_import = new GD_Import();
+			$gd_import_bills = new GD_Import_Bills();
+			$gd_import_transcripts = new GD_Import_Transcripts();
 		}
 
 		public static function activate()
 		{
 			if( !wp_next_scheduled( 'gd_import' ) ) {  
-				wp_schedule_event( time(), 'everyminute', 'gd_import' );  
+				wp_schedule_event( time(), 'daily', 'gd_import' );  
 			}
 		}
 
@@ -63,13 +65,13 @@ function reception_load_textdomain() {
 add_action('plugins_loaded', 'reception_load_textdomain');
 
 
-function cron_add_minute( $schedules ) {
-    $schedules['everyminute'] = array(
-	    'interval' => 60,
-	    'display' => __( 'Once Every Minute' )
-    );
-    return $schedules;
-}
-add_filter('cron_schedules', 'cron_add_minute');
+// function cron_add_minute( $schedules ) {
+// 	$schedules['everyminute'] = array(
+// 		'interval' => 60,
+// 		'display' => __( 'Once Every Minute' )
+// 	);
+// 	return $schedules;
+// }
+// add_filter('cron_schedules', 'cron_add_minute');
 
 ?>

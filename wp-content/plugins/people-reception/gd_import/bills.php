@@ -1,17 +1,24 @@
 <?php
-if(!class_exists('GD_Import'))
+if(!class_exists('GD_Import_Bills'))
 {
-	class GD_Import
+	class GD_Import_Bills
 	{	
 		const BILL_URL	= 'http://www.duma.gov.ru/systems/law/?deputy=99110214';
-		const TRANSCRIPT_URL = 'http://www.cir.ru/duma/servlet/is4.wwwmain?FormName=ProcessQuery&Action=RunQuery&PDCList=*&QueryString=%2FGD_%C4%C5%CF%D3%D2%C0%D2%3D%22%CE%C1%D3%D5%CE%C2+%D1.%CF.%22';
 
 		public function __construct()
 		{
-			//add_action('gd_import', array(&$this, 'bills_import'));
+			add_action('gd_import', array(&$this, 'bills_import'));
 		}
 
-		private function get_bill_list($content) {
+		private function date_correct($date_str) {
+			$out_date = strtotime(str_ireplace(
+											array('года', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'),
+											array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
+											$date_str));
+			return $out_date;
+		}
+
+		private function get_bills_list($content) {
 			$data = array();
 			preg_match_all('/<div class="search-block-result.*?">(.+?)<\/div>\s+<\/div>/isu', $content, $entry);
 			for ($j = 0; $j < count($entry[1]); $j++) {
@@ -19,10 +26,7 @@ if(!class_exists('GD_Import'))
 				$title = (preg_match('/<h3><.+>\S+\s(.+?)<\/a><\/h3>/ui', $entry[1][$j], $matches)) ? $matches[1] : '';
 				$url = (preg_match('/<h3><a href="(.+?)".+?<\/a><\/h3>/ui', $entry[1][$j], $matches)) ? $matches[1] : '';
 				$pub_date = (preg_match('/Дата внесения в ГД:<\/b>\s?(.+?)</ui', $entry[1][$j], $matches)) ? $matches[1] : '';
-				$pub_date = strtotime(str_ireplace(
-												array('года', 'января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'),
-												array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
-												$pub_date));
+				$pub_date = self::date_correct($pub_date);
 
 				$data[$number]  = array(
 					'number' => $number,
@@ -33,15 +37,15 @@ if(!class_exists('GD_Import'))
 			return $data;
 		}
 
-		public function get_bills($limit=20) {
+		public function get_bills($page=0) {
 			try {
-				$page_content = @file_get_contents(GD_Import::BILL_URL);
+				$page_content = @file_get_contents(self::BILL_URL); //.'&PAGEN_1=2'
 			} catch (Exception $e) {
 				$page_content = '';
 			}
 
 			if ($page_content) {
-				return self::get_bill_list($page_content);
+				return self::get_bills_list($page_content);
 			}
 		}
 
