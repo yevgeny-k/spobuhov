@@ -1,6 +1,6 @@
 server {
 	listen 80;
-	server_name spobuhov;
+	server_name www.spobuhov.ru;
 	charset utf-8;
 
 	root /web/spobuhov;
