@@ -532,6 +532,7 @@ h1#site-title {
   background-color: #bc0716;
   font-weight: bolder;
   text-transform: uppercase;
+  text-align: right;
 }
 #header-right-section {
 	float: right;

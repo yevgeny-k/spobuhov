@@ -55,9 +55,9 @@ wp_head();
 						?>
 						<div id="header-text">
 							<h1 id="site-title">
-								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+								<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home">Депутат Госдумы Сергей Обухов. Фракция КПРФ</a>
 							</h1>
-							<h2 id="site-description"><?php bloginfo( 'description' ); ?></h2><!-- #site-description -->
+							<h2 id="site-description">ДОЛГ &ndash; ПОМОГАТЬ ЛЮДЯМ</h2><!-- #site-description -->
 						</div><!-- #header-text -->
 						<?php
 						}
