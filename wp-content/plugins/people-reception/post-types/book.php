@@ -48,7 +48,7 @@ if(!class_exists('Book'))
 				'menu_position'				=> 9,
 				'description'					=> __('Book or other material in the Library'),
 				'menu_icon'						=> 'dashicons-book-alt',
-				//'supports'						=> array( 'title', 'editor', 'author' )
+				'supports'						=> array('title', 'editor', 'thumbnail')
 			);
 			register_post_type(self::POST_TYPE, $args);
 		}
